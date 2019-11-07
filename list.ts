@@ -4,18 +4,35 @@ const initListNode = (node: ListNode) => {
     node.tcb = null
 }
 
-const initList = (list: List) => {
-    list.node = list.endNode
-    list.node.value = 999
-    list.node.prevNode = list.node
-    list.node.nextNode = list.node
+const init = (list: List) => {
+    list.pointer = list.header
+    list.header.sequence = 999
+    list.pointer.prev = list.pointer
+    list.pointer.next = list.pointer
     list.nodeCount = 0
 }
 
-const unshiftList = (list: List, node: ListNode) => {
-    node.nextNode = list.node
-    node.prevNode = list.node.prevNode
-    list.node.prevNode.nextNode = node
-    list.node.prevNode = node
+const unshift = (list: List, node: ListNode) => {
+    node.next = list.pointer
+    node.prev = list.pointer.prev
+    list.pointer.prev.next = node
+    list.pointer.prev = node
     node.list = list
+    list.nodeCount++
+}
+
+const orderInsert = (list: List, newNode: ListNode) => {
+    let pNode: ListNode
+    if(newNode.sequence === 999){
+        pNode = list.header.prev
+    }else{
+        for(pNode = list.header; pNode.next.sequence <= newNode.sequence; pNode = pNode.next){
+
+        }
+        newNode.next = pNode.next
+        newNode.prev= pNode
+        pNode.next.prev = newNode
+        pNode.next = newNode
+        newNode.list = list
+    }
 }
